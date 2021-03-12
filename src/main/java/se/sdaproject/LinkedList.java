@@ -1,5 +1,5 @@
 package se.sdaproject;
-
+import java.util.NoSuchElementException;
 // a "box" in our previous picture
 class Node {
     // field 1: the data
@@ -17,6 +17,8 @@ class Node {
 public class LinkedList {
 
     private Node first = null;
+    //public int size = 0;
+    
 
     public void add(int num) {
         // int num is available!
@@ -47,11 +49,97 @@ public class LinkedList {
 
             // step 3: create a new node with the given int "num"
             Node node = new Node(num);
+            //size ++;
+      
 
             // step 4: change the reference of the last node to
             // point to the new node
             current.next = node;
         }
+
+    }
+
+
+    public int search(int num)
+    {
+            Node current = first.next;
+            int index = 0;
+            boolean found = false;
+
+            while (current!= null )
+            {
+                if(current.elem == num)
+                {
+                    found = true;
+                }
+                else
+                {
+                    current = current.next;
+                    index++;
+                }
+
+            }
+            if(found)
+            {
+                return index;
+            }
+            else
+            {
+                return -1;
+            }
+    }
+
+    
+
+    public Node get(int index) {
+        Node current = first;
+        if (index > size() - 1)    // can also add a check to index if it is mionus
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        else
+        {
+            for (int i = 0; i < index; i++)
+            {
+                current = current.next;
+            }
+
+            return current;
+        }
+    }
+
+
+    public void remove(int num) {
+        Node current = first;
+        Node previous = null;
+        int index = search(num);
+        if (index == -1)
+        {
+             throw new NoSuchElementException();
+        }
+        else
+        {
+            for (int i = 0; i <= index; i++)
+            {
+                previous = current;
+                current = current.next;
+            }
+            previous.next = current.next;            // null pointer exception for the last node
+            ///size--;
+
+        }
+    }
+
+    public int size()
+    {
+        Node current = first;
+        int sizeOfList = 0;
+        while (current!= null)   // because it was not counting last node
+        {
+        current=current.next;
+        sizeOfList++;
+        }
+          return  sizeOfList;
 
     }
 
